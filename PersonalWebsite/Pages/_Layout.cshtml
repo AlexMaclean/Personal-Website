@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/FortAwsome/css/fontawesome.css" />
         <link rel="stylesheet" href="~/lib/FortAwsome/css/solid.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:700,900">
     </environment>
 
     <environment exclude="Development">
@@ -24,7 +25,10 @@
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/lib/FortAwsome/css/fontawesome.min.css" />
         <link rel="stylesheet" href="~/lib/FortAwsome/css/solid.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:700,900">
     </environment>
+    
+    @RenderSection("Style", required: false)
 
 </head>
 <body class="d-flex justify-content-center align-items-center h-100 p-4">
