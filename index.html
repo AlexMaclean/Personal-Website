@@ -1,0 +1,128 @@
+﻿
+
+
+
+
+
+
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#343a40">
+
+    <meta name="author" content="Alex MacLean">
+    <meta name="keywords" content="Alex, Maclean, Alex Maclean, Seattle">
+    <meta name="description" content="The personal wesite for Alex MacLEan of Seattle, Washington">
+
+    <title>Alex MacLean</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="lib/css/site.css" />
+        <link rel="stylesheet" href="lib/FortAwsome/css/fontawesome.css" />
+        <link rel="stylesheet" href="lib/FortAwsome/css/solid.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:700,900">
+    </environment>
+
+    <environment exclude="Development">
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="lib/css/site.css" />
+        <link rel="stylesheet" href="lib/FortAwsome/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="lib/FortAwsome/css/solid.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:700,900">
+    </environment>
+    
+    
+    <style>
+        .page { width: 500px; }
+
+        .ligntning {
+            background-image: url("lib/ligntning.svg");
+            background-color: #007BFF;
+            background-size: 700px;
+        }
+
+        .links { font-size: 1.1rem !important; }
+
+        .twitter-btn:hover { color: #1DA1F2 !important; }
+
+        .facebook-btn:hover { color: #5E80BF !important }
+
+        .linkedin-btn:hover { color: #00A0DC !important }
+
+        .instagram-btn:hover { color: #e95950 !important }
+    </style>
+
+</head>
+<body class="d-flex justify-content-center align-items-center h-100 p-4">
+
+
+<div class="card page m-auto bg-dark text-white">
+    <div class="card-header text-center ligntning">
+        <h1 class="title m-0">Alex MacLean</h1>
+    </div>
+    <div class="card-body">
+        <h3 class="title"><span class="fa fa-portrait mr-2"></span>Bio</h3>
+        <p class="ml-2">
+            I am currently a student at Cal Poly in San Louis Obispo, where I am majoring in Computer Science.
+            I was born and grew up in Seattle, Washington, where I attended Roosevelt High School and earned Eagle Scout in Troop 186.
+            My interests include swimming, climbing, and software development.
+        </p>
+
+        <h3 class="title"><span class="fa fa-table-tennis mr-2"></span>Experiance</h3>
+        <p class="ml-2">
+            In the summer of 2016 I interned at the MacCoss Lab, where I worked on the Skyline Team, a software tool for targeted mass spectrometry.
+            The next summer I interned at Microsoft Reasearch working on a scheduler for deep learning. 
+            After graduating high school I worked for Math Adventure on a tool for registering teams for events. 
+        </p>
+
+        <h3 class="title"><span class="fa fa-atlas mr-2"></span>Links</h3>
+        <div class="links">
+            <a class="badge badge-secondary shadow-sm mx-1" href="mailto:alex@@teammaclean.net">
+                <span class="fa fa-envelope mr-1"></span>
+                Email
+            </a>
+            <a class="badge badge-secondary shadow-sm mx-1" href="files/Resume.pdf">
+                <span class="fa fa-file-download mr-1"></span>
+                R&eacute;sum&eacute;
+            </a>
+            <a class="badge badge-secondary shadow-sm mx-1" href="https://github.com/alexMaclean">
+                <span class="fa fa-code-branch mr-1"></span>
+                GitHub
+            </a>
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+        <a class="shadow-none text-white btn mx-1 twitter-btn" href="https://twitter.com/AlexMaclean2000">
+            <span class="fa fa-crow h5 m-0"></span>
+        </a>
+        <a class="shadow-none text-white btn mx-1 facebook-btn" href="https://www.facebook.com/alex.maclean2000">
+            <span class="fa fa-book h5 m-0"></span>
+        </a>
+        <a class="shadow-none text-white btn mx-1 linkedin-btn" href="https://www.linkedin.com/in/alexmaclean2000">
+            <span class="fa fa-link h5 m-0"></span>
+        </a>
+        <a class="shadow-none text-white btn mx-1 instagram-btn" href="https://www.instagram.com/alexmaclean2000">
+            <span class="fa fa-camera h5 m-0"></span>
+        </a>
+    </div>
+</div>
+
+
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+
+<environment exclude="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+
+</body>
+</html>
