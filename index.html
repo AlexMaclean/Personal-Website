@@ -1,86 +1,55 @@
-﻿
+﻿<!DOCTYPE html>
+<html>
 
-
-
-
-
-
-<!DOCTYPE html>
-<html class="h-100">
 <head>
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#343a40">
-
-    <meta name="author" content="Alex MacLean">
-    <meta name="keywords" content="Alex, Maclean, Alex Maclean, Seattle">
-    <meta name="description" content="The personal wesite for Alex MacLean of Seattle, Washington">
-
     <title>Alex MacLean</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="lib/css/site.css" />
-        <link rel="stylesheet" href="lib/FortAwsome/css/fontawesome.css" />
-        <link rel="stylesheet" href="lib/FortAwsome/css/solid.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:700,900">
-    </environment>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="theme-color" content="#343a40"/>
 
-    <environment exclude="Development">
-        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="lib/css/site.css" />
-        <link rel="stylesheet" href="lib/FortAwsome/css/fontawesome.min.css" />
-        <link rel="stylesheet" href="lib/FortAwsome/css/solid.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:700,900">
-    </environment>
-    
-    
-    <style>
-        .page { width: 500px; }
+    <meta name="author" content="Alex MacLean"/>
+    <meta name="keywords" content="Alex, MacLean, Alex MacLean, Seattle"/>
+    <meta name="description" content="The personal website for Alex MacLean of Seattle, Washington"/>
 
-        .ligntning {
-            background-image: url("lib/ligntning.svg");
-            background-color: #007BFF;
-            background-size: 700px;
-        }
-
-        .links { font-size: 1.1rem !important; }
-
-        .twitter-btn:hover { color: #1DA1F2 !important; }
-
-        .facebook-btn:hover { color: #5E80BF !important }
-
-        .linkedin-btn:hover { color: #00A0DC !important }
-
-        .instagram-btn:hover { color: #e95950 !important }
-    </style>
-
+    <link rel="stylesheet" href="./styles.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:700,900"/>
 </head>
-<body class="d-flex justify-content-center align-items-center h-100 p-4">
 
+<body>
+    <div class="container">
 
-<div class="card page m-auto bg-dark text-white">
-    <div class="card-header text-center ligntning">
-        <h1 class="title m-0">Alex MacLean</h1>
+    <div class="a">
+        <h1>Alex MacLean</h1>
+        <img src="./photo.JPG"/>
     </div>
-    <div class="card-body">
-        <h3 class="title"><span class="fa fa-portrait mr-2"></span>Bio</h3>
-        <p class="ml-2">
+
+    <div class="b">
+        <h2>Bio</h2>
+        <p>
             I am currently a student at Cal Poly in San Luis Obispo, where I am majoring in Computer Science.
             I was born and grew up in Seattle, Washington, where I attended Roosevelt High School and earned Eagle Scout in Troop 186.
             My interests include swimming, climbing, and software development.
         </p>
 
-        <h3 class="title"><span class="fa fa-table-tennis mr-2"></span>Experience</h3>
-        <p class="ml-2">
+        <h2>Experience</h2>
+        <p>
             I interned virtually for Dropbox in the summers of 2021 and 2020 on the team success and photos teams.
-            Previous to that, I interned at Rosepoint Navigation Systems in 2019. 
+            Previous to that, I interned at Rosepoint Navigation Systems in 2019.
             In high school, I interned for Math Adventure, Microsoft, and The MacCoss Lab.
-          
         </p>
+    </div>
+    </div>
 
-        <h3 class="title"><span class="fa fa-atlas mr-2"></span>Links</h3>
+
+
+</body>
+</html>
+
+
+
+
+        <!-- <h3 class="title"><span class="fa fa-atlas mr-2"></span>Links</h3>
         <div class="links">
             <a class="badge badge-secondary shadow-sm mx-1" href="mailto:alex@@teammaclean.net">
                 <span class="fa fa-envelope mr-1"></span>
@@ -94,9 +63,9 @@
                 <span class="fa fa-code-branch mr-1"></span>
                 GitHub
             </a>
-        </div>
-    </div>
-    <div class="card-footer d-flex justify-content-center">
+        </div> -->
+
+    <!-- <div class="card-footer d-flex justify-content-center">
         <a class="shadow-none text-white btn mx-1 twitter-btn" href="https://twitter.com/AlexMaclean2000">
             <span class="fa fa-crow h5 m-0"></span>
         </a>
@@ -109,21 +78,4 @@
         <a class="shadow-none text-white btn mx-1 instagram-btn" href="https://www.instagram.com/alexmaclean2000">
             <span class="fa fa-camera h5 m-0"></span>
         </a>
-    </div>
-</div>
-
-
-<environment include="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-</environment>
-
-<environment exclude="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-</environment>
-
-</body>
-</html>
+    </div> -->
