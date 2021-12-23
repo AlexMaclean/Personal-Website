@@ -19,25 +19,36 @@ body {
 }
 
 .container {
-    margin: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    margin: 3rem;
+    display: grid;
+    grid-gap: 2rem;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: min-content auto;
+    grid-template-areas: "image title" "image content";
 }
 
-.container > * {
+/* .container > * {
     flex: 1 1 50%;
+} */
+
+h1, h2 {
+    font-family: consolas;
+    text-transform: uppercase;
+    line-height: 1;
 }
 
 h1 {
     margin: 0;
     font-size: 4rem;
-    text-transform: uppercase;
+    grid-area: title;
 }
 
 @media (max-width: 800px) {
     .container {
-        flex-direction: column;
+        grid-template-columns: auto;
+        grid-template-rows: min-content minmax(20rem, auto) auto;
+        grid-template-areas: "title" "image" "content";
     }
 }
 
@@ -45,11 +56,13 @@ img {
     object-fit: contain;
     width: 100%;
     height: 100%;
+    grid-area: image;
 }
 
-.a {
+.content {
     display: flex;
     flex-direction: column;
     height: 100%;
+    grid-area: content;
 }
 
