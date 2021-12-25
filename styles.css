@@ -15,10 +15,10 @@ body {
     height: 100%;
 
     display: flex;
-    flex: 1 1 100%;
 }
 
 .container {
+    flex: 1 1 100%;
     margin: 3rem;
     display: grid;
     grid-gap: 2rem;
@@ -51,6 +51,14 @@ h2 {
         grid-template-rows: min-content minmax(20rem, auto) auto;
         grid-template-areas: "title" "image" "content";
     }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .content {
+        margin-bottom: 3rem;
+    };
 }
 
 img {
