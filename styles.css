@@ -24,7 +24,7 @@ body {
     grid-gap: 2rem;
 
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: min-content auto;
+    grid-template-rows: min-content 1fr;
     grid-template-areas: "image title" "image content";
 }
 
@@ -47,8 +47,8 @@ h2 {
 
 @media (max-width: 800px) {
     .container {
-        grid-template-columns: auto;
-        grid-template-rows: min-content minmax(20rem, auto) auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content minmax(20rem, 1fr) 1fr;
         grid-template-areas: "title" "image" "content";
     }
 
