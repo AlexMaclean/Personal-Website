@@ -16,3 +16,4 @@ plugins:
 exclude:
   - Gemfile
   - Gemfile.lock
+  - .gitignore
