@@ -53,23 +53,6 @@ h2 {
   font-size: 1.8rem;
 }
 
-@media (max-width: 800px) {
-  .container {
-    grid-template-columns: 1fr;
-    grid-template-rows: min-content minmax(20rem, 1fr) 1fr;
-    grid-template-areas: "title" "image" "content";
-    margin: 1.5rem;
-  }
-
-  h1 {
-    font-size: 3rem;
-  }
-
-  .content {
-    margin-bottom: 3rem;
-  }
-}
-
 img {
   display: block;
   object-fit: contain;
@@ -104,3 +87,26 @@ a {
 p {
   text-align: justify;
 }
+
+@media (max-width: 800px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content minmax(20rem, 1fr) 1fr;
+    grid-template-areas: "title" "image" "content";
+    margin: 1.5rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  .content {
+    margin-bottom: 3rem;
+  }
+
+  img {
+    object-fit: cover;
+    object-position: 50% 25%;
+  }
+}
+
