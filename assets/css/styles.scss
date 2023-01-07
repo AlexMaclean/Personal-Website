@@ -110,3 +110,16 @@ p {
   }
 }
 
+
+#canvas {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
