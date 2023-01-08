@@ -16,15 +16,12 @@ function makeRawHypercube(dim) {
 }
 
 function edgesToIndex(edges, n) {
-    console.log(edges);
     const m = Array.from({ length: n }, () => []);
     const add_edge = (e) => {
-        console.log({ add: e.toString() });
         m[e[0]].push(e[1]);
         m[e[1]].push(e[0]);
     };
     const remove_edge = (e) => {
-        console.log({ remove: e.toString() });
         m[e[0]].splice(m[e[0]].indexOf(e[1]), 1);
         m[e[1]].splice(m[e[1]].indexOf(e[0]), 1);
     };
@@ -34,7 +31,6 @@ function edgesToIndex(edges, n) {
             add_edge([i, es.find((n) => m[n].length % 2)]);
         }
     });
-    console.log(m);
     const index = [0];
 
     const get_path = (start) => {
@@ -58,9 +54,6 @@ function edgesToIndex(edges, n) {
             index.splice(i, 1, ...path);
         }
     }
-
-    console.log({ index });
-
     return index;
 }
 
@@ -116,13 +109,13 @@ function resizeRendererToDisplaySize(renderer) {
 //function init() {
 const canvas = document.querySelector("#canvas");
 const renderer = new THREE.WebGLRenderer({
-    antiailias: true,
+    antialias: true,
     canvas: canvas,
 });
 
 const camera = new THREE.PerspectiveCamera(
     45,
-    window.innerWidth / window.innerHeight,
+    canvas.width / canvas.height,
     1,
     500
 );
@@ -159,7 +152,7 @@ function renderLoop() {
         const canvas = renderer.domElement;
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
-      }
+    }
 
     requestAnimationFrame(renderLoop);
 }
