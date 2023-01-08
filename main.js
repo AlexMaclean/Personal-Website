@@ -1,6 +1,6 @@
 const DIM = 5;
-const BACK_COLOR = 0x000088;
-const CUBE_COLOR = 0xffff00;
+const BACK_COLOR = 0x081d58;
+const CUBE_COLOR = 0xfee391;
 
 function makeRawHypercube(dim) {
     if (dim == 1) return { cube: [[1], [-1]], edges: [[0, 1]] };

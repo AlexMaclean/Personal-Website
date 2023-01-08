@@ -1,13 +1,15 @@
 ---
 ---
 
+$text-color: #fee391;
+
 html {
   height: 100%;
 }
 
 body {
-  background-color: #202230;
-  color: white;
+  background-color: #081d58;
+  color: $text-color;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
@@ -79,7 +81,7 @@ img {
 }
 
 a {
-  color: white;
+  color: $text-color;
   text-decoration: none;
   font-weight: 700;
 }
