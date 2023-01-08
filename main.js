@@ -126,11 +126,11 @@ const camera = new THREE.PerspectiveCamera(
     1,
     500
 );
-camera.position.set(0, 0, 10);
+camera.position.set(0, 0, 7);
 camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(BACK_COLOR, 8, 15);
+scene.fog = new THREE.Fog(BACK_COLOR, 6, 9.5);
 scene.background = new THREE.Color(BACK_COLOR);
 
 const rm = getTumbleMatrix(0.01, DIM);
@@ -150,13 +150,9 @@ scene.add(line);
 
 function renderLoop() {
     m = math.multiply(m, rm);
-    //console.log(m)
     writePositionArray(m, geometry.attributes.position.array);
     geometry.attributes.position.needsUpdate = true;
-    //console.log(vectors)
-    // for (let i = 0; i < butterflies.length; i++) {
-    //   butterflies[i].animate();
-    // }
+
     renderer.render(scene, camera);
 
     if (resizeRendererToDisplaySize(renderer)) {
@@ -169,6 +165,4 @@ function renderLoop() {
 }
 
 renderLoop();
-// };
-
-// init();
+canvas.style.opacity = 1;

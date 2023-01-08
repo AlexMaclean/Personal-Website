@@ -5,21 +5,34 @@ layout: default
 <body>
     <div class="container">
 
-        <div class="sidebar">
-            <h1>Alex MacLean</h1>
+        <header class="sidebar">
+            <a href="/">
+                <h1>Alex MacLean</h1>
+            </a>
             <!-- <a href="https://resume.alex-maclean.com/Resume.pdf"> R&eacute;sum&eacute; </a> -->
             <!-- | -->
-            <a href="https://github.com/AlexMaclean"> GitHub </a>
-            |
-            <a href="https://www.linkedin.com/in/alexmaclean2000/"> LinkedIn </a>
-        </div>
-
-
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/bio"> Bio</a>
+                    </li>
+                </ul>
+            </nav>
+            <hr>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://github.com/AlexMaclean"> GitHub </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/alexmaclean2000/"> LinkedIn </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
 
         <div class="content">
-
             {{ content }}
-
         </div>
 
     </div>

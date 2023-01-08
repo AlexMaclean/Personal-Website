@@ -1,14 +1,16 @@
 ---
 ---
 
+$back-color: #081d58;
 $text-color: #fee391;
+$page-padding: 3rem;
 
 html {
   height: 100%;
 }
 
 body {
-  background-color: #081d58;
+  background-color: $back-color;
   color: $text-color;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -26,14 +28,40 @@ body {
 
 .container {
   flex: 1 1 100%;
-  margin: 3rem;
-  display: grid;
+  display: flex;
   column-gap: 2rem;
   row-gap: 1rem;
 
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: min-content 1fr;
-  grid-template-areas: "image title" "image content";
+  flex-direction: row;
+}
+
+.sidebar {
+  flex-basis: auto;
+  flex-shrink: 0;
+  margin: $page-padding;
+  margin-right: 0;
+}
+
+.content {
+  flex-grow: 1;
+  flex-basis: auto;
+
+  overflow: auto;
+  padding: $page-padding;
+  padding-left: 0;
+}
+
+.sidebar {
+  ul {
+    list-style-type: none;
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background: $text-color;
+  }
+
 }
 
 h1,
@@ -46,7 +74,7 @@ h2 {
 h1 {
   margin: 0;
   font-weight: 900;
-  font-size: 5rem;
+  font-size: 4rem;
 }
 
 h2 {
@@ -62,23 +90,7 @@ img {
   height: 100%;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  grid-area: content;
-  // background-color: #0a0aff88;
-}
 
-.title {
-  grid-area: title;
-  // background-color: #0aff0a88;
-}
-
-.image {
-  grid-area: image;
-  // background-color: #ff0a0a88;
-}
 
 a {
   color: $text-color;
@@ -113,15 +125,11 @@ p {
 }
 
 
-#canvas {
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute;
-}
 
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
+
+// canvas {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   z-index: -1;
+// }

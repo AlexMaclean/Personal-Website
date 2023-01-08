@@ -2,9 +2,21 @@
 layout: page
 ---
 
+<style>
+  #canvas {
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  .content {
+    overflow: hidden;
+  }
+</style>
+
 <canvas id="canvas"></canvas>
 
-
-  <script src="./three.min.js"></script>
-  <script src="./math.min.js"></script>
-  <script src="./main.js"></script>
+<script src="./three.min.js"></script>
+<script src="./math.min.js"></script>
+<script src="./main.js"></script>
