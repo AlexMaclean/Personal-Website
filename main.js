@@ -106,7 +106,7 @@ function resizeRendererToDisplaySize(renderer) {
     return needResize;
 }
 
-//function init() {
+
 const canvas = document.querySelector("#canvas");
 const renderer = new THREE.WebGLRenderer({
     antialias: true,
@@ -130,7 +130,7 @@ const rm = getTumbleMatrix(0.01, DIM);
 const im = getTumbleMatrix(Math.PI, DIM);
 const { index, vertices, matrix } = makeHypercube(DIM);
 let m = math.multiply(matrix, im);
-//create a blue LineBasicMaterial
+
 const material = new THREE.LineBasicMaterial({ color: CUBE_COLOR });
 
 const geometry = new THREE.BufferGeometry();
