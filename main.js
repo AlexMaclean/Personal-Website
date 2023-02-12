@@ -126,7 +126,7 @@ const scene = new THREE.Scene();
 scene.fog = new THREE.Fog(BACK_COLOR, 6, 9.5);
 scene.background = new THREE.Color(BACK_COLOR);
 
-const rm = getTumbleMatrix(0.01, DIM);
+const rm = getTumbleMatrix(0.012, DIM);
 const im = getTumbleMatrix(Math.PI, DIM);
 const { index, vertices, matrix } = makeHypercube(DIM);
 let m = math.multiply(matrix, im);
