@@ -2,17 +2,16 @@ import {
   WebGLRenderer,
   PerspectiveCamera,
   Scene,
-  Fog,
   Color,
   Line,
   BufferGeometry,
   BufferAttribute,
-  LineBasicMaterial,
+  ShaderMaterial,
 } from "three";
 
 const DIM = 5;
-const BACK_COLOR = 0x081d58;
-const CUBE_COLOR = 0xfee391;
+const BACK_COLOR = 0x08090d;
+const CAM_DIST = 7;
 
 type Edge = [number, number];
 
@@ -196,29 +195,106 @@ const renderer = new WebGLRenderer({
 });
 
 const camera = new PerspectiveCamera(45, canvas.width / canvas.height, 1, 500);
-camera.position.set(0, 0, 7);
+camera.position.set(0, 0, CAM_DIST);
 camera.lookAt(0, 0, 0);
 
 const scene = new Scene();
-scene.fog = new Fog(BACK_COLOR, 6, 9.5);
 scene.background = new Color(BACK_COLOR);
 
 const nVerts = 1 << DIM;
-const rm = getTumbleMatrix(0.012, DIM);
+const rm = getTumbleMatrix(0.007, DIM);
 const { index, positions, verts } = makeHypercube(DIM);
 applyRotation(verts, getTumbleMatrix(Math.PI, DIM), nVerts, DIM);
 
-const material = new LineBasicMaterial({ color: CUBE_COLOR });
+const material = new ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0.0 },
+    uFogColor: { value: new Color(BACK_COLOR) },
+    uFogNear: { value: 8.0 },
+    uFogFar: { value: 11.0 },
+  },
+  vertexShader: `
+    varying vec3 vPos;
+    varying vec3 vViewDir;
+    varying float vFogDepth;
+
+    void main() {
+      vPos = position;
+      vViewDir = normalize(cameraPosition - position);
+      vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+      vFogDepth = -mvPos.z;
+      gl_Position = projectionMatrix * mvPos;
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    uniform vec3 uFogColor;
+    uniform float uFogNear;
+    uniform float uFogFar;
+
+    varying vec3 vPos;
+    varying vec3 vViewDir;
+    varying float vFogDepth;
+
+    void main() {
+      vec3 n = normalize(vPos);
+      float fresnel = 1.0 - abs(dot(n, vViewDir));
+      float phase = fresnel * 2.0 + length(vPos) * 0.3 + uTime * 0.1;
+      vec3 color = 0.72 + 0.28 * cos(6.28318 * (phase + vec3(0.55, 0.65, 0.80)));
+      float fog = smoothstep(uFogNear, uFogFar, vFogDepth);
+      color = mix(color, uFogColor, fog);
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `,
+});
 
 const geometry = new BufferGeometry();
 geometry.setAttribute("position", new BufferAttribute(positions, 3));
 geometry.setIndex(index);
 
 const line = new Line(geometry, material);
-
 scene.add(line);
 
+let mouseX = 0;
+let mouseY = 0;
+let targetMouseX = 0;
+let targetMouseY = 0;
+
+function onPointerMove(px: number, py: number): void {
+  const rect = canvas.getBoundingClientRect();
+  targetMouseX = ((px - rect.left) / rect.width) * 2 - 1;
+  targetMouseY = ((py - rect.top) / rect.height) * 2 - 1;
+}
+
+canvas.addEventListener("mousemove", (e) => onPointerMove(e.clientX, e.clientY));
+canvas.addEventListener("touchmove", (e) => {
+  if (e.touches.length > 0)
+    onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: true });
+canvas.addEventListener("mouseleave", () => {
+  targetMouseX = 0;
+  targetMouseY = 0;
+});
+canvas.addEventListener("touchend", () => {
+  targetMouseX = 0;
+  targetMouseY = 0;
+}, { passive: true });
+
 function renderLoop(): void {
+  mouseX += (targetMouseX - mouseX) * 0.08;
+  mouseY += (targetMouseY - mouseY) * 0.08;
+
+  const azimuth = mouseX * Math.PI * 0.4;
+  const elevation = -mouseY * Math.PI * 0.25;
+  camera.position.set(
+    CAM_DIST * Math.sin(azimuth) * Math.cos(elevation),
+    CAM_DIST * Math.sin(elevation),
+    CAM_DIST * Math.cos(azimuth) * Math.cos(elevation),
+  );
+  camera.lookAt(0, 0, 0);
+
+  material.uniforms.uTime.value = performance.now() * 0.001;
+
   applyRotation(verts, rm, nVerts, DIM);
   writePositions(verts, positions, nVerts, DIM);
   geometry.attributes.position.needsUpdate = true;
