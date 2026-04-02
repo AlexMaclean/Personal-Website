@@ -87,6 +87,7 @@ body {
 
   h2:first-child {
     margin-top: 0;
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -159,6 +160,84 @@ a {
   &[target="_blank"]::after {
     content: "\2009\2197";
     font-size: 0.75em;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid $border-color;
+  }
+
+  th {
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $heading-color;
+
+    &[data-sort] {
+      cursor: pointer;
+      user-select: none;
+
+      &::after {
+        content: "\2195";
+        margin-left: 0.4em;
+        opacity: 0.3;
+        font-size: 0.9em;
+      }
+
+      &[aria-sort="ascending"]::after {
+        content: "\2191";
+        opacity: 0.8;
+      }
+
+      &[aria-sort="descending"]::after {
+        content: "\2193";
+        opacity: 0.8;
+      }
+    }
+  }
+
+  tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+.blog-entry {
+  & + .blog-entry {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid $border-color;
+  }
+
+  header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: $heading-color;
+    margin: 0;
+  }
+
+  time {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    white-space: nowrap;
   }
 }
 

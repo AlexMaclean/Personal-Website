@@ -1,0 +1,58 @@
+---
+layout: text-page
+permalink: /reading
+---
+
+<h2>Reading</h2>
+
+<table id="reading-table">
+  <thead>
+    <tr>
+      <th data-sort="string">Title</th>
+      <th data-sort="date">Date</th>
+      <th data-sort="number">Rating</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in site.data.reading %}
+    <tr>
+      <td>{% if row.URL %}<a href="{{ row.URL }}">{{ row.Title }}</a>{% else %}{{ row.Title }}{% endif %}</td>
+      <td>{{ row.Date }}</td>
+      <td>{{ row.Rating }}</td>
+      <td>{{ row.Notes }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script>
+(function () {
+  const table = document.getElementById("reading-table");
+  const tbody = table.querySelector("tbody");
+  const headers = table.querySelectorAll("th[data-sort]");
+
+  headers.forEach(function (th, colIdx) {
+    th.style.cursor = "pointer";
+    th.addEventListener("click", function () {
+      const type = th.dataset.sort;
+      const asc = th.getAttribute("aria-sort") !== "ascending";
+
+      headers.forEach(function (h) { h.removeAttribute("aria-sort"); });
+      th.setAttribute("aria-sort", asc ? "ascending" : "descending");
+
+      var rows = Array.from(tbody.querySelectorAll("tr"));
+      rows.sort(function (a, b) {
+        const at = a.children[colIdx].textContent.trim();
+        const bt = b.children[colIdx].textContent.trim();
+        var cmp;
+        if (type === "number") cmp = (parseFloat(at) || 0) - (parseFloat(bt) || 0);
+        else if (type === "date") cmp = new Date(at) - new Date(bt);
+        else cmp = at.localeCompare(bt);
+        return asc ? cmp : -cmp;
+      });
+      rows.forEach(function (r) { tbody.appendChild(r); });
+    });
+  });
+})();
+</script>
