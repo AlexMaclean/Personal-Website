@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "build": "esbuild src/main.ts --bundle --minify --outfile=assets/js/main.bundle.js",
-    "watch": "esbuild src/main.ts --bundle --sourcemap --outfile=assets/js/main.bundle.js --watch",
+    "build": "esbuild src/main.ts --bundle --minify --loader:.glsl=text --outfile=assets/js/main.bundle.js",
+    "watch": "esbuild src/main.ts --bundle --sourcemap --loader:.glsl=text --outfile=assets/js/main.bundle.js --watch",
     "dev": "concurrently -n js,jekyll -c blue,green \"npm run watch\" \"bundle exec jekyll serve --livereload\"",
     "typecheck": "tsc --noEmit"
   },

@@ -3,19 +3,11 @@ layout: page
 ---
 
 <style>
-  #canvas {
-    width: 100% !important;
-    height: 100% !important;
-    opacity: 0;
-    transition: opacity 1s;
-  }
-
-  .content {
-    overflow: hidden;
-  }
+  .container { height: 100vh; height: 100dvh; overflow: hidden; }
+  .content { display: flex; }
 </style>
 
-<div class="content">
+<div class="home-canvas">
   <canvas id="canvas"></canvas>
 </div>
 

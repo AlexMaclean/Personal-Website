@@ -8,6 +8,8 @@ import {
   BufferAttribute,
   ShaderMaterial,
 } from "three";
+import vertexShader from "./shaders/vertex.glsl";
+import fragmentShader from "./shaders/fragment.glsl";
 
 const DIM = 5;
 const BACK_COLOR = 0x08090d;
@@ -213,39 +215,8 @@ const material = new ShaderMaterial({
     uFogNear: { value: 8.0 },
     uFogFar: { value: 11.0 },
   },
-  vertexShader: `
-    varying vec3 vPos;
-    varying vec3 vViewDir;
-    varying float vFogDepth;
-
-    void main() {
-      vPos = position;
-      vViewDir = normalize(cameraPosition - position);
-      vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
-      vFogDepth = -mvPos.z;
-      gl_Position = projectionMatrix * mvPos;
-    }
-  `,
-  fragmentShader: `
-    uniform float uTime;
-    uniform vec3 uFogColor;
-    uniform float uFogNear;
-    uniform float uFogFar;
-
-    varying vec3 vPos;
-    varying vec3 vViewDir;
-    varying float vFogDepth;
-
-    void main() {
-      vec3 n = normalize(vPos);
-      float fresnel = 1.0 - abs(dot(n, vViewDir));
-      float phase = fresnel * 2.0 + length(vPos) * 0.3 + uTime * 0.1;
-      vec3 color = 0.72 + 0.28 * cos(6.28318 * (phase + vec3(0.55, 0.65, 0.80)));
-      float fog = smoothstep(uFogNear, uFogFar, vFogDepth);
-      color = mix(color, uFogColor, fog);
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `,
+  vertexShader,
+  fragmentShader,
 });
 
 const geometry = new BufferGeometry();

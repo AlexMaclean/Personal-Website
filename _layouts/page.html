@@ -2,41 +2,36 @@
 layout: default
 ---
 
-<body>
-    <div class="container">
-
-        <header class="sidebar">
-            <a href="/">
-                <h1>Alex MacLean</h1>
-            </a>
-            <!-- <a href="https://resume.alex-maclean.com/Resume.pdf"> R&eacute;sum&eacute; </a> -->
-            <!-- | -->
-            <nav>
-                <ul>
-                    <li>
-                        <a href="/bio">About Me</a>
-                    </li>
-                    <li>
-                        <a href="/bio">Blog</a>
-                    </li>
-                    <li>
-                        <a href="/bio">Reading</a>
-                    </li>
-                </ul>
+<div class="container">
+    <header class="sidebar">
+        <a href="/">
+            <h1>Alex MacLean</h1>
+        </a>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/bio">About</a>
+                </li>
+                <li>
+                    <a href="/bio">Blog</a>
+                </li>
+                <li>
+                    <a href="/bio">Reading</a>
+                </li>
+            </ul>
             <hr>
-                <ul>
-                    <li>
-                        <a href="https://github.com/AlexMaclean">GitHub</a>
-                    </li>
-                    <li>
-                        <a href="https://www.linkedin.com/in/alexxmaclean/">LinkedIn</a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+            <ul>
+                <li>
+                    <a href="https://github.com/AlexMaclean" target="_blank" rel="noopener">GitHub</a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/alexxmaclean/" target="_blank" rel="noopener">LinkedIn</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
+    <main class="content">
         {{ content }}
-
-    </div>
-
-</body>
+    </main>
+</div>
