@@ -182,8 +182,9 @@ function writePositions(
 
 function resizeRendererToDisplaySize(renderer: WebGLRenderer): boolean {
   const canvas = renderer.domElement;
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
+  const dpr = Math.min(window.devicePixelRatio, 2);
+  const width = Math.floor(canvas.clientWidth * dpr);
+  const height = Math.floor(canvas.clientHeight * dpr);
   const needResize = canvas.width !== width || canvas.height !== height;
   if (needResize)
     renderer.setSize(width, height, false);
