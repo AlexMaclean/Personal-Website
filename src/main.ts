@@ -213,8 +213,8 @@ const material = new ShaderMaterial({
   uniforms: {
     uTime: { value: 0.0 },
     uFogColor: { value: new Color(BACK_COLOR) },
-    uFogNear: { value: 8.0 },
-    uFogFar: { value: 11.0 },
+    uFogNear: { value: 6.0 },
+    uFogFar: { value: 10.0 },
   },
   vertexShader,
   fragmentShader,
