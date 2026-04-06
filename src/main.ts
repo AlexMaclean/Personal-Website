@@ -3,10 +3,13 @@ import {
   PerspectiveCamera,
   Scene,
   Color,
-  Line,
-  BufferGeometry,
-  BufferAttribute,
+  DoubleSide,
+  Mesh,
+  InstancedBufferGeometry,
+  InstancedBufferAttribute,
+  Float32BufferAttribute,
   ShaderMaterial,
+  Vector2,
 } from "three";
 import vertexShader from "./shaders/vertex.glsl";
 import fragmentShader from "./shaders/fragment.glsl";
@@ -14,18 +17,13 @@ import fragmentShader from "./shaders/fragment.glsl";
 const DIM = 5;
 const BACK_COLOR = 0x08090d;
 const CAM_DIST = 7;
+const LINE_WIDTH = 2.0;
 
 type Edge = [number, number];
 
 interface RawHypercube {
   cube: number[][];
   edges: Edge[];
-}
-
-interface Hypercube {
-  index: number[];
-  positions: Float32Array;
-  verts: Float64Array;
 }
 
 function makeRawHypercube(dim: number): RawHypercube {
@@ -41,63 +39,10 @@ function makeRawHypercube(dim: number): RawHypercube {
   };
 }
 
-function edgesToIndex(edges: Edge[], n: number): number[] {
-  const m: number[][] = Array.from({ length: n }, () => []);
-  const addEdge = ([a, b]: Edge): void => {
-    m[a].push(b);
-    m[b].push(a);
-  };
-  const removeEdge = ([a, b]: Edge): void => {
-    m[a].splice(m[a].indexOf(b), 1);
-    m[b].splice(m[b].indexOf(a), 1);
-  };
-  for (const edge of edges)
-    addEdge(edge);
-  for (const [i, es] of m.entries())
-    if (es.length % 2)
-      addEdge([i, es.find((v) => m[v].length % 2)!]);
-  const index: number[] = [0];
-
-  const getPath = (start: number): number[] => {
-    const path: number[] = [];
-    let loc = start;
-    while (true) {
-      path.push(loc);
-      if (m[loc].length === 0)
-        return path;
-      const next = m[loc][0];
-      removeEdge([loc, next]);
-      loc = next;
-    }
-  };
-
-  for (let i = 0; i < index.length; i++) {
-    const start = index[i];
-    if (m[start].length !== 0)
-      index.splice(i, 1, ...getPath(start));
-  }
-  return index;
-}
-
 function makeIdentity(dim: number): Float64Array {
   const m = new Float64Array(dim * dim);
-  for (let i = 0; i < dim; i++)
-    m[i * dim + i] = 1;
+  for (let i = 0; i < dim; i++) m[i * dim + i] = 1;
   return m;
-}
-
-function makeHypercube(dim: number): Hypercube {
-  const { cube, edges } = makeRawHypercube(dim);
-  const n = cube.length;
-  const verts = new Float64Array(n * dim);
-  for (let i = 0; i < n; i++)
-    for (let d = 0; d < dim; d++)
-      verts[i * dim + d] = cube[i][d];
-  return {
-    index: edgesToIndex(edges, n),
-    positions: new Float32Array(n * 3),
-    verts,
-  };
 }
 
 function matMulSquare(
@@ -109,8 +54,7 @@ function matMulSquare(
   for (let i = 0; i < dim; i++) {
     for (let j = 0; j < dim; j++) {
       let sum = 0;
-      for (let k = 0; k < dim; k++)
-        sum += a[i * dim + k] * b[k * dim + j];
+      for (let k = 0; k < dim; k++) sum += a[i * dim + k] * b[k * dim + j];
       out[i * dim + j] = sum;
     }
   }
@@ -156,12 +100,10 @@ function applyRotation(
     const off = i * dim;
     for (let d = 0; d < dim; d++) {
       let sum = 0;
-      for (let k = 0; k < dim; k++)
-        sum += verts[off + k] * rot[k * dim + d];
+      for (let k = 0; k < dim; k++) sum += verts[off + k] * rot[k * dim + d];
       tempRow[d] = sum;
     }
-    for (let d = 0; d < dim; d++)
-      verts[off + d] = tempRow[d];
+    for (let d = 0; d < dim; d++) verts[off + d] = tempRow[d];
   }
 }
 
@@ -180,14 +122,33 @@ function writePositions(
   }
 }
 
+function writeSegments(
+  edges: Edge[],
+  positions: Float32Array,
+  starts: Float32Array,
+  ends: Float32Array,
+): void {
+  for (let i = 0; i < edges.length; i++) {
+    const [a, b] = edges[i];
+    const sa = a * 3;
+    const sb = b * 3;
+    const d = i * 3;
+    starts[d] = positions[sa];
+    starts[d + 1] = positions[sa + 1];
+    starts[d + 2] = positions[sa + 2];
+    ends[d] = positions[sb];
+    ends[d + 1] = positions[sb + 1];
+    ends[d + 2] = positions[sb + 2];
+  }
+}
+
 function resizeRendererToDisplaySize(renderer: WebGLRenderer): boolean {
   const canvas = renderer.domElement;
   const dpr = Math.min(window.devicePixelRatio, 2);
   const width = Math.floor(canvas.clientWidth * dpr);
   const height = Math.floor(canvas.clientHeight * dpr);
   const needResize = canvas.width !== width || canvas.height !== height;
-  if (needResize)
-    renderer.setSize(width, height, false);
+  if (needResize) renderer.setSize(width, height, false);
   return needResize;
 }
 
@@ -204,10 +165,31 @@ camera.lookAt(0, 0, 0);
 const scene = new Scene();
 scene.background = new Color(BACK_COLOR);
 
-const nVerts = 1 << DIM;
+const { cube, edges } = makeRawHypercube(DIM);
+const nVerts = cube.length;
+const nSegments = edges.length;
+
+const verts = new Float64Array(nVerts * DIM);
+for (let i = 0; i < nVerts; i++)
+  for (let d = 0; d < DIM; d++) verts[i * DIM + d] = cube[i][d];
+
+const positions = new Float32Array(nVerts * 3);
+const segStarts = new Float32Array(nSegments * 3);
+const segEnds = new Float32Array(nSegments * 3);
+
 const rm = getTumbleMatrix(0.007, DIM);
-const { index, positions, verts } = makeHypercube(DIM);
 applyRotation(verts, getTumbleMatrix(Math.PI, DIM), nVerts, DIM);
+
+const geometry = new InstancedBufferGeometry();
+geometry.setAttribute(
+  "position",
+  new Float32BufferAttribute([-1, 0, 0, 1, 0, 0, 1, 1, 0, -1, 1, 0], 3),
+);
+geometry.setIndex([0, 1, 2, 0, 2, 3]);
+const segStartAttr = new InstancedBufferAttribute(segStarts, 3);
+const segEndAttr = new InstancedBufferAttribute(segEnds, 3);
+geometry.setAttribute("instanceStart", segStartAttr);
+geometry.setAttribute("instanceEnd", segEndAttr);
 
 const material = new ShaderMaterial({
   uniforms: {
@@ -215,17 +197,19 @@ const material = new ShaderMaterial({
     uFogColor: { value: new Color(BACK_COLOR) },
     uFogNear: { value: 6.0 },
     uFogFar: { value: 10.0 },
+    uLineWidth: { value: LINE_WIDTH },
+    uResolution: {
+      value: new Vector2(canvas.clientWidth, canvas.clientHeight),
+    },
   },
   vertexShader,
   fragmentShader,
+  side: DoubleSide,
 });
 
-const geometry = new BufferGeometry();
-geometry.setAttribute("position", new BufferAttribute(positions, 3));
-geometry.setIndex(index);
-
-const line = new Line(geometry, material);
-scene.add(line);
+const mesh = new Mesh(geometry, material);
+mesh.frustumCulled = false;
+scene.add(mesh);
 
 let mouseX = 0;
 let mouseY = 0;
@@ -238,19 +222,29 @@ function onPointerMove(px: number, py: number): void {
   targetMouseY = ((py - rect.top) / rect.height) * 2 - 1;
 }
 
-canvas.addEventListener("mousemove", (e) => onPointerMove(e.clientX, e.clientY));
-canvas.addEventListener("touchmove", (e) => {
-  if (e.touches.length > 0)
-    onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
-}, { passive: true });
+canvas.addEventListener("mousemove", (e) =>
+  onPointerMove(e.clientX, e.clientY),
+);
+canvas.addEventListener(
+  "touchmove",
+  (e) => {
+    if (e.touches.length > 0)
+      onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
+  },
+  { passive: true },
+);
 canvas.addEventListener("mouseleave", () => {
   targetMouseX = 0;
   targetMouseY = 0;
 });
-canvas.addEventListener("touchend", () => {
-  targetMouseX = 0;
-  targetMouseY = 0;
-}, { passive: true });
+canvas.addEventListener(
+  "touchend",
+  () => {
+    targetMouseX = 0;
+    targetMouseY = 0;
+  },
+  { passive: true },
+);
 
 function renderLoop(): void {
   mouseX += (targetMouseX - mouseX) * 0.08;
@@ -269,13 +263,18 @@ function renderLoop(): void {
 
   applyRotation(verts, rm, nVerts, DIM);
   writePositions(verts, positions, nVerts, DIM);
-  geometry.attributes.position.needsUpdate = true;
+  writeSegments(edges, positions, segStarts, segEnds);
+  segStartAttr.needsUpdate = true;
+  segEndAttr.needsUpdate = true;
 
   if (resizeRendererToDisplaySize(renderer)) {
-    const canvas = renderer.domElement;
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
   }
+  material.uniforms.uResolution.value.set(
+    canvas.clientWidth,
+    canvas.clientHeight,
+  );
 
   renderer.render(scene, camera);
   requestAnimationFrame(renderLoop);
