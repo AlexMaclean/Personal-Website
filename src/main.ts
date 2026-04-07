@@ -17,7 +17,7 @@ import fragmentShader from "./shaders/fragment.glsl";
 const DIM = 5;
 const BACK_COLOR = 0x08090d;
 const CAM_DIST = 7;
-const LINE_WIDTH = 2.0;
+const LINE_WIDTH = 1.4;
 
 type Edge = [number, number];
 
